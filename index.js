@@ -4,12 +4,35 @@ const exphbs = require('express-handlebars')
 //const res = require('express/lib/response')
 
 const app = express()
+app.use(express.static('public'))
 
 app.engine('handlebars', exphbs.engine())
 app.set('view engine','handlebars')
 
 
 app.get('/',(req,res)=>{
+    res.render('home')
+})
+
+app.get('/alunos',(req,res)=>{
+
+    const alunos = [
+        {nome: ' gb ', beleza: ' alta '},
+        {nome: ' feitosa ', beleza: ' alto '},
+        {nome: ' leon ', beleza: ' mil grau '},
+        {nome: ' rebeca ', beleza: ' beleza '},
+        {nome: ' wesley ', beleza: ' nata '}
+    ]
+    
+    const arrayAluno = alunos.map((aluno) =>{
+        return aluno.nome
+    })
+    
+    res.render('alunos', {arrayAluno, alunos})
+})
+
+
+app.get('/sobre',(req,res)=>{
 
     const dados = {
         nome: 'Gabriel Pereira',
@@ -17,22 +40,17 @@ app.get('/',(req,res)=>{
         hobby: 'Escrever poemas'
     }
 
-    res.render('home', {dados})
+    res.render('sobre', dados)
 })
 
-app.get('/alunos',(req,res)=>{
-    const alunos = [' GB', ' leon', ' nata', ' feitosa']
-    const aluno1 = alunos[0]
-    const aluno2 = alunos[1]
-    const aluno3 = alunos[2]
-    const aluno4 = alunos[3]
-    res.render('alunos',{alunos,aluno1,aluno2,aluno3,aluno4})
+app.get('/contatos',(req,res)=>{
+    const github = "https://github.com/gbython1905"
+    const youtube = "https://www.youtube.com/@leibky"
+    const nome = 'Gabriel Pereira'
+    res.render('contatos', {github, youtube, nome})
+
 })
 
-
-app.get('/sobre',(req,res)=>{
-    res.render('sobre')
-})
 
 
 app.listen(3000,()=>console.log(`Servidor funcionando em http://localhost:3000`))
